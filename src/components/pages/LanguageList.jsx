@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 
 const fetchLanguages = async () => {
     const { data, error } = await axios.get(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/language`
+        `${process.env.SERVER_URL}/api/language`
     );
     if (error) {
         toast.error(error.message);
@@ -15,6 +15,8 @@ const fetchLanguages = async () => {
 
 const LanguageList = async () => {
     const languages = await fetchLanguages();
+    
+    console.log("env url", process.env.SERVER_URL)
 
     return (
         <main className="w-full sm:w-[80%] md:w-[50%] mx-auto my-5 font-bold">
