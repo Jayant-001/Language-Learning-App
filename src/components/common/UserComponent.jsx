@@ -13,7 +13,6 @@ const UserComponent = () => {
         queryFn: async () =>
             await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user`),
         onSuccess: ({ data }) => {
-            console.log("user compoennt", data)
             setUser(data);
         },
     });

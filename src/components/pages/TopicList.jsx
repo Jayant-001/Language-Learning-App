@@ -6,7 +6,10 @@ const fetchTopics = async (language) => {
     const { data, error } = await axios.get(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/api/topics?language=${language}`
     );
-    if (error) throw new Error(error.message);
+    if (error) {
+        toast.error(error.message);
+        throw new Error(error.message);
+    }
     return data;
 };
 

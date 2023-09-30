@@ -1,6 +1,7 @@
 "use client";
 import axios from "axios";
 import React from "react";
+import toast from "react-hot-toast";
 import { useQuery } from "react-query";
 
 const LeaderBoard = () => {
@@ -17,6 +18,7 @@ const LeaderBoard = () => {
     }
 
     if (isError) {
+        toast.error(error.message);
         return <h1>{error.message}</h1>;
     }
 

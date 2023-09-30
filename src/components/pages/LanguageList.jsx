@@ -1,11 +1,15 @@
 import axios from "axios";
 import Link from "next/link";
+import toast from "react-hot-toast";
 
 const fetchLanguages = async () => {
     const { data, error } = await axios.get(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/api/language`
     );
-    if (error) throw new Error(error.message);
+    if (error) {
+        toast.error(error.message);
+        throw new Error(error.message);
+    }
     return data;
 };
 

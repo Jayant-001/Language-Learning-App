@@ -63,7 +63,7 @@ const AddQuestionForm = ({ languages }) => {
 
         const check = checkRequiredFields(question);
         if (check.length > 0) {
-            alert(check + " is required");
+            toast(check + " is required");
             return;
         }
 
@@ -84,7 +84,7 @@ const AddQuestionForm = ({ languages }) => {
         const optionInput = option.trim();
 
         if (optionInput.length < 1) {
-            alert("Option is empty");
+            toast("Option is empty");
             return;
         }
         options.push(optionInput);
@@ -97,10 +97,7 @@ const AddQuestionForm = ({ languages }) => {
         setQuestion({ ...question, [e.target.name]: e.target.value });
     };
 
-    const styles = {
-        textInput: "border pl-1",
-    };
-    // sm:w-[80%] md:w-[70%] lg:w-[50%]
+
     return (
         <div className="flex justify-evenly py-10 flex-col lg:flex-row gap-5 w-full">
             <form

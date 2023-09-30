@@ -77,18 +77,18 @@ const TestResultPage = () => {
                 </div>
                 <div className="flex justify-between items-center text-md">
                     <span>Total questions</span>{" "}
-                    <span>{testResult.totalQuestions}</span>
+                    <span>{testResult?.totalQuestions}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                    <span>Solved</span> <span>{testResult.solvedQuestions}</span>
+                    <span>Solved</span> <span>{testResult?.solvedQuestions}</span>
                 </div>
                 <div className="flex justify-between items-center">
                     <span>Your accurracy</span>{" "}
-                    <span>{parseInt(testResult.accurracy)}%</span>
+                    <span>{parseInt(testResult?.accurracy)}%</span>
                 </div>
                 <div className="">
-                    <span>You earned</span> <span  className="font-bold">{testResult.earnedPoints}</span>{" "}
-                    <span>out of </span> <span className="font-bold">{testResult.totalPoints}</span>
+                    <span>You earned</span> <span  className="font-bold">{testResult?.earnedPoints}</span>{" "}
+                    <span>out of </span> <span className="font-bold">{testResult?.totalPoints}</span>
                 </div>
 
                 <div className="flex flex-col gap-4">

@@ -5,7 +5,7 @@ import { useContext } from "react";
 
 const UserInfoCard = () => {
     const { user } = useContext(userContext);
-    // console.log("User", user);
+    
     const u = {
         name: "Jayant",
         email: "jayant.gupta.dln@gmail.com",

@@ -101,7 +101,6 @@ const OptionItem = ({
                 index === choosedOption && bg_style
             } cursor-pointer rounded-lg px-2 py-2`}
         >
-            <div></div>
             <span>{option}</span>
         </div>
     );

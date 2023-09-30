@@ -5,6 +5,7 @@ import TestQuestionList from "@/components/test/TestQuestionList";
 import { testResultContext } from "@/context/TestResultContext";
 import axios from "axios";
 import React, { useContext } from "react";
+import toast from "react-hot-toast";
 import { useQuery } from "react-query";
 
 const TestPage = ({ params }) => {
@@ -34,6 +35,7 @@ const TestPage = ({ params }) => {
     }
 
     if (isError) {
+        toast.error(error.message)
         return <h1>Error: {error.message}</h1>;
     }
 

@@ -1,6 +1,7 @@
 import React from "react";
 
 const ResultQuestionItem = ({ question, index }) => {
+    // show difficulty text and color
     const difficultyText = [
         {
             name: "Super Easy",

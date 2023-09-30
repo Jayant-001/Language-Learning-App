@@ -7,6 +7,7 @@ import React, { useContext } from "react";
 import { useQuery } from "react-query";
 import UserInfoCard from "@/components/user/UserInfoCard";
 import ProgressCard from "@/components/user/ProgressCard";
+import toast from "react-hot-toast";
 
 // const fetchUsersProgress = async () => {
 //     const { data, error } =
@@ -31,6 +32,7 @@ const UserPage = () => {
     }
 
     if (isError) {
+        toast.error(error.message);
         return <h1>{error.message}</h1>;
     }
 
