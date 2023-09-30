@@ -10,17 +10,22 @@ import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 import { useMutation } from "react-query";
 
 const Navbar = () => {
+    // show menu in mobile view
     const [showMenu, setShowMenu] = useState(false);
     const [showProfileMenu, setShowProfileMenu] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const { user } = useContext(userContext);
     const router = useRouter();
 
+    // get user data from user context
+    const { user } = useContext(userContext);
+
+    // check if user email exists; If user.email ? user is authenticated : user is not authenticated
     useEffect(() => {
         if (user.email.length > 1) setIsAuthenticated(true);
         else setIsAuthenticated(false);
     }, [user]);
 
+    // send server request for logout
     const logoutMutation = useMutation({
         mutationFn: async () => {
             return await axios.get("/api/auth/logout");
@@ -28,10 +33,11 @@ const Navbar = () => {
         onSuccess: () => {
             setShowProfileMenu((prev) => !prev);
             toast("Session ended");
-            router.push('/');
+            router.push("/");
         },
     });
 
+    // handle logout button click
     const handleLogoutClick = (e) => {
         e.preventDefault();
         logoutMutation.mutate();
