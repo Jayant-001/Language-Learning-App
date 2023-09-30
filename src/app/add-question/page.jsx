@@ -1,3 +1,4 @@
+'use client'
 import AddQuestionForm from "@/components/question/AddQuestionForm";
 import axios from "axios";
 import React from "react";
