@@ -2,6 +2,7 @@ import AddQuestionForm from "@/components/question/AddQuestionForm";
 import axios from "axios";
 import React from "react";
 import toast from "react-hot-toast";
+import { useQuery } from "react-query";
 
 // fetch all languages from database
 const fetchLanguages = async () => {
@@ -15,8 +16,24 @@ const fetchLanguages = async () => {
     return data;
 };
 
-const AddQuestionPage = async () => {
-    const languages = await fetchLanguages();
+const AddQuestionPage = () => {
+
+    const {data, error, isError, isLoading} = useQuery({
+        queryKey: ['languages'],
+        queryFn: async () => await axios.get(`/api/language`)
+    })
+
+    if(isLoading) {
+        return <h1>Loading...</h1>
+    }
+
+    if(isError) {
+        return <h1>{error.message}</h1>
+    }
+
+    const languages =  data.data
+
+    // const languages = await fetchLanguages();
 
     return (
         <div className="w-full sm:w-[75%] mx-auto lg:w-full">
