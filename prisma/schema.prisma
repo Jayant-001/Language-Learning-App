@@ -1,0 +1,77 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Language {
+  id        String     @id @default(cuid()) @map("_id")
+  slug      String     @unique
+  name      String
+  topics    Topic[]
+  questions Question[]
+}
+
+model Topic {
+  id           String     @id @default(cuid()) @map("_id")
+  name         String
+  slug         String     @unique
+  questions    Question[]
+  languageSlug String
+  language     Language   @relation(fields: [languageSlug], references: [slug])
+}
+
+model Question {
+  id              String           @id @default(cuid()) @map("_id")
+  slug            String           @unique
+  name            String
+  options         String[]
+  correctOption   Int
+  difficulty      Int
+  createdAt       DateTime         @default(now())
+  languageSlug    String
+  language        Language         @relation(fields: [languageSlug], references: [slug])
+  topicSlug       String
+  topic           Topic            @relation(fields: [topicSlug], references: [slug])
+  userEmail       String
+  user            User             @relation(fields: [userEmail], references: [email])
+  explanation     String?
+  solvedQuestions SolvedQuestion[]
+}
+
+model User {
+  id              String           @id @default(cuid()) @map("_id")
+  name            String
+  email           String           @unique
+  password        String
+  isAdmin         Boolean          @default(false)
+  questions       Question[]
+  solvedQuestions SolvedQuestion[]
+  progress        Progress?
+}
+
+model Progress {
+  id              String @id @default(cuid()) @map("_id")
+  solvedPoints    Int    @default(0)
+  attemptedPoints Int    @default(0)
+  userEmail       String @unique
+  user            User   @relation(fields: [userEmail], references: [email])
+}
+
+model SolvedQuestion {
+  id         String   @id @default(cuid()) @map("_id")
+  name       String
+  topic      String
+  language   String
+  difficulty Int
+  userEmail  String
+  user       User     @relation(fields: [userEmail], references: [email])
+  questionID String
+  question   Question @relation(fields: [questionID], references: [id])
+}
