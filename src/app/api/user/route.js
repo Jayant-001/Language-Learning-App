@@ -6,6 +6,10 @@ export const GET = async (req) => {
     try {
         const user = await extractToken(req);
 
+        // if can't get user, Send unauthorized 
+        if (!user) {
+            return NextResponse.json({ success: false }, { status: 401 });
+        }
 
         const usersProgress = await prisma.user.findUnique({
             where: {

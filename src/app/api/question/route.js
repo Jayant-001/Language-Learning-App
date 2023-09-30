@@ -8,16 +8,16 @@ export const GET = async (req) => {
         const language = searchParams.get("language");
         const topic = searchParams.get("topic");
 
+        // include language, topic if language, topic are present in the URL
         const query = {
             ...(language && { languageSlug: language }),
             ...(topic && { topicSlug: topic }),
         };
 
+        // find all questions with language and topic
         const questions = await prisma.question.findMany({
             where: query,
         });
-
-        // console.log(questions)
 
         return NextResponse.json(questions, { status: 200 });
     } catch (error) {
@@ -28,10 +28,23 @@ export const GET = async (req) => {
 
 export const POST = async (req) => {
     try {
+        // get user data
         const user = await extractToken(req);
 
-        let { name, options, correctOption, difficulty, language, topic, explanation } =
-            await req.json();
+        // if can't get user, Send unauthorized 
+        if (!user) {
+            return NextResponse.json({ success: false }, { status: 401 });
+        }
+
+        let {
+            name,
+            options,
+            correctOption,
+            difficulty,
+            language,
+            topic,
+            explanation,
+        } = await req.json();
         const now = Date.now();
         name = name.trim();
 
@@ -46,7 +59,7 @@ export const POST = async (req) => {
                 languageSlug: language,
                 topicSlug: topic,
                 userEmail: user.email,
-                explanation: explanation.trim()
+                explanation: explanation.trim(),
             },
         });
 

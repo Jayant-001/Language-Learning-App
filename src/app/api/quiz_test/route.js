@@ -5,6 +5,12 @@ import prisma from "../../../../prisma";
 export const GET = async (req) => {
     try {
         const user = await extractToken(req);
+
+        // if can't get user, Send unauthorized
+        if (!user) {
+            return NextResponse.json({ success: false }, { status: 401 });
+        }
+
         const { searchParams } = new URL(req.url);
         const language = searchParams.get("language");
         const topic = searchParams.get("topic");
@@ -16,24 +22,21 @@ export const GET = async (req) => {
             },
         });
 
+        // find all soved questions by the user
         const solvedQuestions = await prisma.solvedQuestion.findMany({
             where: {
                 userEmail: user.email,
             },
         });
 
-        console.log(usersProgress);
-        console.log(solvedQuestions);
-
         const solvedQuestionIDs = solvedQuestions.map((q) => q.questionID);
-        console.log(solvedQuestionIDs);
 
         const questions = await prisma.question.findMany({
             where: {
                 languageSlug: language,
                 topicSlug: topic,
                 id: {
-                    notIn: solvedQuestionIDs,
+                    notIn: solvedQuestionIDs, // avoid already solved questions
                 },
             },
             take: 3,
@@ -41,11 +44,6 @@ export const GET = async (req) => {
                 difficulty: "asc",
             },
         });
-
-        // const { success, questions } = await req.json();
-
-        // console.log(userDifficulty);
-        // console.log(usersProgress);
 
         const question = questions.length > 0 ? questions[0] : {};
 
@@ -59,6 +57,12 @@ export const GET = async (req) => {
 export const POST = async (req) => {
     try {
         const user = await extractToken(req);
+
+        // if can't get user, Send unauthorized
+        if (!user) {
+            return NextResponse.json({ success: false }, { status: 401 });
+        }
+
         const { markedQuestions } = await req.json();
 
         let questionPoint = 0,
@@ -67,9 +71,6 @@ export const POST = async (req) => {
             if (q.solved) usersPoint += parseInt(q.difficulty);
             questionPoint += parseInt(q.difficulty);
         });
-
-        console.log(markedQuestions);
-        console.log(questionPoint, usersPoint);
 
         // Update users previous progress
         const usersProgress = await prisma.progress.upsert({
@@ -91,10 +92,6 @@ export const POST = async (req) => {
             },
         });
 
-        // console.log(usersProgress);
-
-        // console.log(markedQuestions)
-
         // filter successfully solved question
         const solvedQuestions = markedQuestions
             .filter((q) => q.solved === true)
@@ -110,13 +107,13 @@ export const POST = async (req) => {
                 return question;
             });
 
-        if(solvedQuestions.length > 0) {
-
+        if (solvedQuestions.length > 0) {
             await prisma.solvedQuestion.createMany({
                 data: solvedQuestions,
             });
         }
 
+        // create a report object 
         const testReport = {
             totalQuestions: markedQuestions.length,
             solvedQuestions: solvedQuestions.length,
@@ -124,7 +121,6 @@ export const POST = async (req) => {
             earnedPoints: usersPoint,
             accurracy: (usersPoint / questionPoint) * 100,
         };
-
 
         return NextResponse.json(testReport, { status: 200 });
     } catch (error) {
