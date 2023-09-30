@@ -9,12 +9,6 @@ import UserInfoCard from "@/components/user/UserInfoCard";
 import ProgressCard from "@/components/user/ProgressCard";
 import toast from "react-hot-toast";
 
-// const fetchUsersProgress = async () => {
-//     const { data, error } =
-//     if (error) throw new Error(error.message);
-//     return data;
-// };
-
 const UserPage = () => {
     const { setUser } = useContext(userContext);
 

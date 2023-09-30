@@ -8,7 +8,7 @@ const fetchLanguages = async () => {
     );
     if (error) {
         toast.error(error.message);
-        throw new Error(error.message);
+        // throw new Error(error.message);
     }
     return data;
 };
