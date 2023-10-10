@@ -3,8 +3,8 @@ import { NextResponse } from "next/server";
 export function middleware(request) {
 
     const path = request.nextUrl.pathname;
-    const authPaths = path === "/auth/login" || path === "/auth/signup";
-    const privatePaths = path.endsWith("/test") || path.startsWith("/user");
+    const authPaths = path === "/auth/login" || path === "/auth/signup" ;
+    const privatePaths = path.endsWith("/test") || path.startsWith("/user") || path === "/add-question" ;
     const token = request.cookies.get("token")?.value || "";
 
     if (authPaths && token) {
@@ -17,5 +17,5 @@ export function middleware(request) {
 }
 
 export const config = {
-    matcher: ["/", "/user", "/:path/:path/test", "/auth/login", "/auth/signup"],
+    matcher: ["/", "/user", "/:path/:path/test", "/auth/login", "/auth/signup", "/add-question"],
 };
