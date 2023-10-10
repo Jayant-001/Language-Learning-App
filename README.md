@@ -1,7 +1,7 @@
 
 # Project Title
 
-Pocket Library, A Platform gives learning and practice exercises to learn different langugaes. [@Live](https://language-learning-app-blue.vercel.app/)
+Pocket Library, A Platform gives learning and practice exercises to learn different langugaes. [Live](https://language-learning-app-blue.vercel.app/)
 
 ## Getting Started
 
