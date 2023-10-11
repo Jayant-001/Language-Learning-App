@@ -1,15 +1,37 @@
 "use client";
 
 import { userContext } from "@/context/UserContext";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useContext } from "react";
+import toast from "react-hot-toast";
+import { useMutation } from "react-query";
 
 const UserInfoCard = () => {
     const { user } = useContext(userContext);
-    
+    const router = useRouter();
+
     const u = {
         name: "Jayant",
         email: "jayant.gupta.dln@gmail.com",
         memberSince: "10-20-2023",
+    };
+
+    const resetProgressMutation = useMutation({
+        mutationFn: async () => await axios.delete("/api/reset-progress"),
+        onSuccess: ({ data }) => {
+            toast.success(data.message);
+            router.refresh();
+        },
+        onError: (error) => {
+            toast.error(error.response.data.message);
+        },
+    });
+
+    const resetProgress = (e) => {
+        e.preventDefault();
+
+        resetProgressMutation.mutate();
     };
 
     return (
@@ -18,13 +40,16 @@ const UserInfoCard = () => {
                 <p className="text-xl font-bold">{user.name}</p>
                 <p>{user.email}</p>
                 <p>
-                    <span className="text-sm">Member since:{" "}</span>
+                    <span className="text-sm">Member since: </span>
                     <span className="italic font-semibold">
                         {u.memberSince}
                     </span>
                 </p>
             </div>
-            <button className="mx-0 sm:mx-[10%] md:mx-0 px-5 py-3 rounded-lg shadow-lg bg-[#1f1f1f]">
+            <button
+                onClick={resetProgress}
+                className="mx-0 sm:mx-[10%] md:mx-0 px-5 py-3 rounded-lg shadow-lg bg-[#1f1f1f]"
+            >
                 Reset Progress
             </button>
         </div>

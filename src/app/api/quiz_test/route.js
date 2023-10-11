@@ -4,6 +4,7 @@ import prisma from "../../../../prisma";
 
 export const GET = async (req) => {
     try {
+        // get user info from request token
         const user = await extractToken(req);
 
         // if can't get user, Send unauthorized
@@ -11,11 +12,12 @@ export const GET = async (req) => {
             return NextResponse.json({ success: false }, { status: 401 });
         }
 
+        // extract language and topic choosed by user
         const { searchParams } = new URL(req.url);
         const language = searchParams.get("language");
         const topic = searchParams.get("topic");
 
-        // console.log("data", language, topic, user);
+        // find user's progress from Progress table
         const usersProgress = await prisma.progress.findUnique({
             where: {
                 userEmail: user.email,
@@ -29,8 +31,10 @@ export const GET = async (req) => {
             },
         });
 
+        // extract solved question IDs
         const solvedQuestionIDs = solvedQuestions.map((q) => q.questionID);
 
+        // find questions from database
         const questions = await prisma.question.findMany({
             where: {
                 languageSlug: language,
@@ -39,13 +43,11 @@ export const GET = async (req) => {
                     notIn: solvedQuestionIDs, // avoid already solved questions
                 },
             },
-            take: 3,
+            take: 3, // send only 3 questions at a time
             orderBy: {
-                difficulty: "asc",
+                difficulty: "asc", // sort questions in accending order by difficulty level
             },
         });
-
-        const question = questions.length > 0 ? questions[0] : {};
 
         return NextResponse.json(questions, { status: 200 });
     } catch (error) {
@@ -113,7 +115,7 @@ export const POST = async (req) => {
             });
         }
 
-        // create a report object 
+        // create a report object
         const testReport = {
             totalQuestions: markedQuestions.length,
             solvedQuestions: solvedQuestions.length,
