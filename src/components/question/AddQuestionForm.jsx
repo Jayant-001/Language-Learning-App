@@ -108,7 +108,7 @@ const AddQuestionForm = ({ languages }) => {
                     <p className="text-center">Question uploaded.</p>
                 )}
                 {submitQuestionMutation.isLoading && (
-                    <p className="text-center">Loading...</p>
+                    <p className="text-center text-xl">Loading...</p>
                 )}
                 {/* Question description */}
                 <div>

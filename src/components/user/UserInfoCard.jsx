@@ -11,12 +11,14 @@ const UserInfoCard = () => {
     const { user } = useContext(userContext);
     const router = useRouter();
 
+    // demo user data for testing
     const u = {
         name: "Jayant",
         email: "jayant.gupta.dln@gmail.com",
         memberSince: "10-20-2023",
     };
 
+    // it send api request to rest user's progress
     const resetProgressMutation = useMutation({
         mutationFn: async () => await axios.delete("/api/reset-progress"),
         onSuccess: ({ data }) => {
@@ -31,6 +33,7 @@ const UserInfoCard = () => {
     const resetProgress = (e) => {
         e.preventDefault();
 
+        // reset mutation
         resetProgressMutation.mutate();
     };
 
@@ -48,7 +51,7 @@ const UserInfoCard = () => {
             </div>
             <button
                 onClick={resetProgress}
-                className="mx-0 sm:mx-[10%] md:mx-0 px-5 py-3 rounded-lg shadow-lg bg-[#1f1f1f]"
+                className="mx-0 sm:mx-[10%] md:mx-0 px-5 py-3 rounded-lg shadow-lg bg-[#1f1f1f] active:opacity-70"
             >
                 Reset Progress
             </button>

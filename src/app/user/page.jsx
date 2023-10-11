@@ -22,7 +22,7 @@ const UserPage = () => {
     });
 
     if (isLoading) {
-        return <h1>Loading...</h1>;
+        return <h1 className="text-xl">Loading...</h1>;
     }
 
     if (isError) {
