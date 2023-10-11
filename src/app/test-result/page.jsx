@@ -67,7 +67,7 @@ const TestResultPage = () => {
     ];
 
     return (
-        <div className="w-fit min-h-[600px] flex flex-col justify-center items-center space-y-10 py-10">
+        <div className="w-full min-h-[600px] flex flex-col justify-center items-center space-y-10 py-10 ">
             <div className="bg-[#282828] w-full shadow-lg rounded-lg p-5 space-y-2 md:w-[70%] lg:w-[60%] mx-auto">
                 <div className="flex flex-col items-center">
                     <h1 className="text-center text-xl md:text-2xl font-bold tracking-wider mb-2">
