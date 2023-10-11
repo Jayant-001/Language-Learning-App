@@ -2,10 +2,13 @@
 
 import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 import { useMutation } from "react-query";
 
 const SignupPage = () => {
+    const router = useRouter();
     const [user, setUser] = useState({
         name: "",
         email: "",
@@ -21,6 +24,11 @@ const SignupPage = () => {
         },
         onSuccess: ({ data }) => {
             console.log(data);
+            toast.success("Account created. Login now");
+            router.push("/auth/login");
+        },
+        onError: (error) => {
+            toast.error(error.response.data.message);
         },
     });
 
@@ -30,7 +38,7 @@ const SignupPage = () => {
 
     const onSignup = (e) => {
         e.preventDefault();
-    
+
         mutation.mutate(user);
     };
 

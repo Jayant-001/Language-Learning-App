@@ -15,7 +15,7 @@ export async function POST(req) {
         // if user not exists with the email return
         if (!user) {
             return NextResponse.json(
-                { success: false, message: "Email not exists" },
+                { success: false, message: "Email not found" },
                 { status: 400 }
             );
         }
@@ -43,7 +43,7 @@ export async function POST(req) {
 
         // create a response object
         const response = NextResponse.json({
-            message: true,
+            success: true,
             message: "Login successfully",
             user,
         });
