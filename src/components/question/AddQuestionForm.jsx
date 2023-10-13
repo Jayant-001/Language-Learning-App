@@ -1,9 +1,8 @@
 "use client";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import QuestionLayout from "./QuestionLayout";
 
 const checkRequiredFields = (question) => {
@@ -16,7 +15,7 @@ const checkRequiredFields = (question) => {
 };
 
 const AddQuestionForm = ({ languages }) => {
-    const router = useRouter();
+    const queryClient = useQueryClient();
     const difficulties = ["Super easy", "Easy", "Medium", "Hard", "Super hard"];
     const [option, setOption] = useState("");
     const [topics, setTopics] = useState([]);
@@ -50,6 +49,7 @@ const AddQuestionForm = ({ languages }) => {
                 payload
             ),
         onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["quiz-test"] });
             toast.success("Question uploaded");
         },
     });
@@ -96,7 +96,6 @@ const AddQuestionForm = ({ languages }) => {
     const handleChange = (e) => {
         setQuestion({ ...question, [e.target.name]: e.target.value });
     };
-
 
     return (
         <div className="flex justify-evenly py-10 flex-col lg:flex-row gap-5 w-full">
@@ -251,7 +250,7 @@ const AddQuestionForm = ({ languages }) => {
                         ))}
                     </select>
                 </div>
-  
+
                 {/* Solution explanation */}
                 <div>
                     <label
