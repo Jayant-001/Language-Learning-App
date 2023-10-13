@@ -3,11 +3,12 @@ import { testResultContext } from "@/context/TestResultContext";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useContext } from "react";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 
 const SubmitTestButton = () => {
     const { setTestResult, quizQuestions } = useContext(testResultContext);
     const router = useRouter();
+    const queryClient = useQueryClient();
 
     /* Send user's marked questions to server to calculate result. */
     const submitTestMutation = useMutation({
@@ -17,6 +18,7 @@ const SubmitTestButton = () => {
                 { markedQuestions }
             ),
         onSuccess: ({ data }) => {
+            queryClient.invalidateQueries({ queryKey: ["leaderboard"] }); // invalidate leaderboard data
             setTestResult(data);
             router.push("/test-result");
         },

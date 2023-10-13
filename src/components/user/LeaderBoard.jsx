@@ -4,7 +4,18 @@ import React from "react";
 import toast from "react-hot-toast";
 import { useQuery } from "react-query";
 
-const LeaderBoard = () => {
+// const fetchLeaderboard = async () => {
+//     const { data, error } = await axios.get(
+//         `${process.env.NEXT_PUBLIC_SERVER_URL}/api/leaderboard`
+//     );
+
+//     if (error) {
+//         toast.error(error.message);
+//     }
+//     return data;
+// };
+
+const LeaderBoard =  () => {
     const { data, isLoading, isError, error } = useQuery({
         queryKey: ["leaderboard"],
         queryFn: async () =>
@@ -23,6 +34,20 @@ const LeaderBoard = () => {
     }
 
     const users = data.data;
+
+    // const data = await fetchLeaderboard();
+    // console.log(data);
+
+    // const users = [
+    //     {
+    //         id: "clmzv9g2n0000t4ng8upvtg86",
+    //         name: "test",
+    //         email: "test@gmail.com",
+    //         progress: {
+    //             solvedPoints: 8,
+    //         },
+    //     },
+    // ];
 
     return (
         <div className="w-full bg-[#282828] p-5 shadow-lg rounded-lg h-fit">
