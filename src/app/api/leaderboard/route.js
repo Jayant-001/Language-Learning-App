@@ -4,9 +4,6 @@ import prisma from "../../../../prisma";
 export const GET = async () => {
     try {
         const users = await prisma.user.findMany({
-            // where: {
-            //     progress: { isNot: null },
-            // },
             select: {
                 id: true,
                 name: true,

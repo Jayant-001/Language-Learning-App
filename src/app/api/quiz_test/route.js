@@ -12,17 +12,10 @@ export const GET = async (req) => {
             return NextResponse.json({ success: false }, { status: 401 });
         }
 
-        // extract language and topic choosed by user
+        // extract query parameters language and topic from URL
         const { searchParams } = new URL(req.url);
         const language = searchParams.get("language");
         const topic = searchParams.get("topic");
-
-        // find user's progress from Progress table
-        const usersProgress = await prisma.progress.findUnique({
-            where: {
-                userEmail: user.email,
-            },
-        });
 
         // find all soved questions by the user
         const solvedQuestions = await prisma.solvedQuestion.findMany({
@@ -62,13 +55,18 @@ export const POST = async (req) => {
 
         // if can't get user, Send unauthorized
         if (!user) {
-            return NextResponse.json({ success: false }, { status: 401 });
+            return NextResponse.json(
+                { message: "Invalid user" },
+                { status: 401 }
+            );
         }
 
         const { markedQuestions } = await req.json();
 
         let questionPoint = 0,
             usersPoint = 0;
+
+        // calculate total questions points and user's points of solved questions
         markedQuestions.map((q) => {
             if (q.solved) usersPoint += parseInt(q.difficulty);
             questionPoint += parseInt(q.difficulty);
@@ -117,8 +115,8 @@ export const POST = async (req) => {
 
         // create a report object
         const testReport = {
-            totalQuestions: markedQuestions.length,
-            solvedQuestions: solvedQuestions.length,
+            totalQuestions: markedQuestions.length, // total number of questions
+            solvedQuestions: solvedQuestions.length, // total solved questions
             totalPoints: questionPoint,
             earnedPoints: usersPoint,
             accurracy: (usersPoint / questionPoint) * 100,

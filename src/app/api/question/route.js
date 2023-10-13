@@ -33,7 +33,7 @@ export const POST = async (req) => {
 
         // if can't get user, Send unauthorized 
         if (!user) {
-            return NextResponse.json({ success: false }, { status: 401 });
+            return NextResponse.json({ message: "Invalid user" }, { status: 401 });
         }
 
         let {
@@ -62,8 +62,6 @@ export const POST = async (req) => {
                 explanation: explanation.trim(),
             },
         });
-
-        // console.log(name, options, correctOption, difficulty, language, topic);
 
         return NextResponse.json(question, { status: 201 });
     } catch (error) {

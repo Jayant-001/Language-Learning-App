@@ -3,6 +3,7 @@ import prisma from "../../../../prisma";
 
 export const GET = async (req) => {
     try {
+        // extract language from URL query parameters
         const { searchParams } = new URL(req.url);
         const language = searchParams.get("language");
 
@@ -23,7 +24,7 @@ export const POST = async (req) => {
     try {
         const { topic } = await req.json();
 
-        const res = await prisma.topic.create({
+        await prisma.topic.create({
             data: {
                 name: topic,
             },

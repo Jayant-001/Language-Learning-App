@@ -11,7 +11,8 @@ export const GET = async (req) => {
             return NextResponse.json({ success: false }, { status: 401 });
         }
 
-        const usersProgress = await prisma.user.findUnique({
+        // get user's progress
+        const userData = await prisma.user.findUnique({
             where: {
                 email: user.email,
             },
@@ -24,7 +25,7 @@ export const GET = async (req) => {
             },
         });
 
-        return NextResponse.json(usersProgress, { status: 200 });
+        return NextResponse.json(userData, { status: 200 });
     } catch (error) {
         console.log(error);
         return NextResponse.json({ error: error.message }, { status: 500 });
