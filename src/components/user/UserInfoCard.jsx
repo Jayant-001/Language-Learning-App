@@ -5,11 +5,12 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import toast from "react-hot-toast";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 
 const UserInfoCard = () => {
     const { user } = useContext(userContext);
     const router = useRouter();
+    const queryClient = useQueryClient();
 
     // demo user data for testing
     const u = {
@@ -22,6 +23,7 @@ const UserInfoCard = () => {
     const resetProgressMutation = useMutation({
         mutationFn: async () => await axios.delete("/api/reset-progress"),
         onSuccess: ({ data }) => {
+            queryClient.invalidateQueries({ queryKey: ["leaderboard"] });
             toast.success(data.message);
             router.refresh();
         },
