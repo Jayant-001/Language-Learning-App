@@ -41,7 +41,7 @@ const TestPage = ({ params }) => {
 
     return (
         <div className="w-full py-10">
-            <h1 className="text-3xl text-center font-bold my-5">Questions</h1>
+            <h1 className="text-3xl text-center font-bold my-5">Quiz questions</h1>
             {/* Show all questions in a list */}
             <TestQuestionList />
             {/* Handle final submit button */}
