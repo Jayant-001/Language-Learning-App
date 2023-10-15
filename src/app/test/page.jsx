@@ -1,54 +1,23 @@
-"use client";
-import axios from "axios";
-import React from "react";
-import toast from "react-hot-toast";
-import { useQuery } from "react-query";
+'use client'
+import React from 'react'
+import useSWR from 'swr';
 
-// const fetchLeaderboard = async () => {
-//     const { data, error } = await axios.get(
-//         `${process.env.NEXT_PUBLIC_SERVER_URL}/api/leaderboard`
-//     );
+const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
-//     if (error) {
-//         toast.error(error.message);
-//     }
-//     return data;
-// };
+const TestPage = () => {
 
+    const {data, error} = useSWR(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/leaderboard`, fetcher)
 
-const LeaderBoard =  () => {
-    const { data, isLoading, isError, error } = useQuery({
-        queryKey: ["leaderboard"],
-        queryFn: async () =>
-            await axios.get(
-                `${process.env.NEXT_PUBLIC_SERVER_URL}/api/leaderboard`
-            ),
-    });
-
-    if (isLoading) {
-        return <h1 className="text-xl">Loading...</h1>;
+    if(!data) {
+        return <h1>Loading</h1>
     }
 
-    if (isError) {
-        toast.error(error.message);
-        return <h1>{error.message}</h1>;
+    if(error) {
+        console.log(error)
+        return <h1>Error happend</h1>
     }
 
-    const users = data.data;
-
-    // const data = await fetchLeaderboard();
-    // console.log(data);
-
-    // const users = [
-    //     {
-    //         id: "clmzv9g2n0000t4ng8upvtg86",
-    //         name: "test",
-    //         email: "test@gmail.com",
-    //         progress: {
-    //             solvedPoints: 8,
-    //         },
-    //     },
-    // ];
+    const users = data;
 
     return (
         <div className="w-full bg-[#282828] p-5 shadow-lg rounded-lg h-fit">
@@ -88,6 +57,7 @@ const LeaderBoard =  () => {
             </div>
         </div>
     );
-};
+  
+}
 
-export default LeaderBoard;
+export default TestPage
