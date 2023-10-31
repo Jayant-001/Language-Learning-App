@@ -46,6 +46,10 @@ To get started with Pocket Cloud, follow these steps:
 3. NEXT_PUBLIC_SERVER_URL
 4. SERVER_URL
 
+## Feedback
+
+If you have any feedback, please reach out to me at jayant.gupta.dln@gmail.com
+
 ##
 
 Connect with us:
