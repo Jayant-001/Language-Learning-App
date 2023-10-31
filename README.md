@@ -1,7 +1,28 @@
+# [Pocket Library - A interactive quiz based learning platform](https://pocket-library.vercel.app)
 
-# Project Title
+A learning platform that makes learning easy and more competitive. It provides learning and practice exercises to learn different languages.
 
-Pocket Library, A Platform gives learning and practice exercises to learn different langugaes. [Live](https://pocket-library.vercel.app)
+![Mera Box Banner](https://raw.githubusercontent.com/Jayant-001/Portfolio/main/src/assets/images/projects/pocket_library_project.png)
+
+## Features
+
+- User authentication using JWT
+- Add question section by admin
+- Performance tracking page
+- User leaderboard
+- Track and reset progress from user from
+- Choose your favourite language
+- Test report
+
+## Technologies used
+
+- Next.js
+- TanStack Query
+- Prisma
+- Mongo DB
+- Tailwind CSS
+- Built with Javascript
+
 
 ## Getting Started
 
@@ -22,10 +43,10 @@ To get started with Pocket Cloud, follow these steps:
 3. NEXT_PUBLIC_SERVER_URL
 4. SERVER_URL
 
-
 ##
 
 Connect with us:
 - Email: [jayant.gupta.dln@gmail.com](jayant.gupta.dln@gmail.com)
 - LinkedIn: [@jayant-cse](https://www.linkedin.com/in/jayant-cse/)
 - Website: [https://jayant-gupta.vercel.app](https://jayant-gupta.vercel.app)
+
