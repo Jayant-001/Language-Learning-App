@@ -1,4 +1,7 @@
 import LanguageList from "@/components/pages/LanguageList";
+import { Suspense } from "react";
+
+// revalidatePath(path);
 
 export default async function Home() {
     return (
@@ -19,7 +22,11 @@ export default async function Home() {
                 <span className="text-red-500">practice</span> that{" "}
                 <span className="text-green-500">motivate</span> every student
             </p>
-            <LanguageList />
+            <Suspense
+                fallback={<p className="text-center my-5">Loading languages</p>}
+            >
+                <LanguageList />
+            </Suspense>
         </div>
     );
 }

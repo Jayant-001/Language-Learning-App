@@ -1,8 +1,8 @@
-'use client'
+// 'use client'
 import axios from "axios";
 import Link from "next/link";
 import toast from "react-hot-toast";
-import { useQuery } from "react-query";
+// import { useQuery } from "react-query";
 
 const fetchLanguages = async () => {
     const { data, error } = await axios.get(
@@ -15,22 +15,23 @@ const fetchLanguages = async () => {
     return data;
 };
 
-const LanguageList =  () => {
+const LanguageList = async () => {
 
-    const {data, error, isError, isLoading} = useQuery({
-        queryKey: ['languages'],
-        queryFn: async () => await axios.get(`/api/language`)
-    })
+    // const {data, error, isError, isLoading} = useQuery({
+    //     queryKey: ['languages'],
+    //     queryFn: async () => await axios.get(`/api/language`)
+    // })
 
-    if(isLoading) {
-        return <h1 className="text-xl">Loading...</h1>
-    }
+    // if(isLoading) {
+    //     return <h1 className="text-xl">Loading...</h1>
+    // }
 
-    if(isError) {
-        return <h1>{error.message}</h1>
-    }
-
-    const languages =  data.data
+    // if(isError) {
+    //     return <h1>{error.message}</h1>
+    // }
+    
+    // const languages =  data.data // client side fatching
+    const languages = await fetchLanguages(); // sever side fetching
 
     return (
         <main className="w-full sm:w-[80%] md:w-[50%] mx-auto my-5 font-bold">
