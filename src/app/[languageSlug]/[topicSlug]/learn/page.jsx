@@ -1,12 +1,14 @@
+import Pagination from "@/components/common/Pagination";
 import QuestionItem from "@/components/question/QuestionItem";
 import axios from "axios";
+import Link from "next/link";
 import React from "react";
 import toast from "react-hot-toast";
 
 // fetch all question to show on learn page
-const fetchQuestions = async (language, topic) => {
+const fetchQuestions = async (language, topic, page, limit) => {
     const { data, error } = await axios.get(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/question?language=${language}&topic=${topic}`
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/question?language=${language}&topic=${topic}&page=${page}&limit=${limit}`
     );
     if (error) {
         toast.error(error.message);
@@ -15,9 +17,22 @@ const fetchQuestions = async (language, topic) => {
     return data;
 };
 
-const LearnPage = async ({ params }) => {
+const LearnPage = async ({ params, searchParams }) => {
     const { topicSlug, languageSlug } = params;
-    const questions = await fetchQuestions(languageSlug, topicSlug);
+
+    const page =
+        typeof searchParams.page === "string" ? Number(searchParams.page) : 1;
+    const limit =
+        typeof searchParams.limit === "string" ? Number(searchParams.limit) : 5;
+
+    const { questions, hasNext } = await fetchQuestions(
+        languageSlug,
+        topicSlug,
+        page,
+        limit
+    );
+
+    // console.log(hasNext);
 
     return (
         <div className="w-full md:w-[70%] lg:w-[60%] mx-auto py-10 flex flex-col justify-center items-center">
@@ -31,6 +46,7 @@ const LearnPage = async ({ params }) => {
                     />
                 ))}
             </div>
+            <Pagination page={page} hasNext={hasNext} languageSlug={languageSlug} topicSlug={topicSlug} />
         </div>
     );
 };

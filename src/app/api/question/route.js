@@ -7,6 +7,12 @@ export const GET = async (req) => {
         const { searchParams } = new URL(req.url);
         const language = searchParams.get("language");
         const topic = searchParams.get("topic");
+        const page = Number(searchParams.get("page"));
+        const limit = Number(searchParams.get("limit"));
+
+        const skip = (page - 1) * limit;
+        const take = limit;
+        const offset = skip + take;
 
         // include language, topic if language, topic are present in the URL
         const query = {
@@ -17,9 +23,23 @@ export const GET = async (req) => {
         // find all questions with language and topic
         const questions = await prisma.question.findMany({
             where: query,
+            take,
+            skip,
         });
 
-        return NextResponse.json(questions, { status: 200 });
+        // const allQuestions = await prisma.question.findMany({
+        //     where: query,
+        // });
+
+        const totalQuestions = await prisma.question.count({
+            where: query,
+        });
+
+        const hasNext = totalQuestions > offset;
+
+        // console.log("next = ", hasNext);
+
+        return NextResponse.json({questions, hasNext}, { status: 200 });
     } catch (error) {
         console.log(error);
         return NextResponse.json({ error: error.message }, { status: 500 });
@@ -31,9 +51,12 @@ export const POST = async (req) => {
         // get user data
         const user = await extractToken(req);
 
-        // if can't get user, Send unauthorized 
+        // if can't get user, Send unauthorized
         if (!user) {
-            return NextResponse.json({ message: "Invalid user" }, { status: 401 });
+            return NextResponse.json(
+                { message: "Invalid user" },
+                { status: 401 }
+            );
         }
 
         let {
