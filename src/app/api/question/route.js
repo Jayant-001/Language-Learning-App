@@ -10,9 +10,8 @@ export const GET = async (req) => {
         const page = Number(searchParams.get("page"));
         const limit = Number(searchParams.get("limit"));
 
-        const skip = (page - 1) * limit;
-        const take = limit;
-        const offset = skip + take;
+        const skip = (page - 1) * limit; // skip previous questions
+        const offset = skip + limit; // how many questions have showned (including current page)
 
         // include language, topic if language, topic are present in the URL
         const query = {
@@ -23,23 +22,18 @@ export const GET = async (req) => {
         // find all questions with language and topic
         const questions = await prisma.question.findMany({
             where: query,
-            take,
+            take: limit,
             skip,
         });
 
-        // const allQuestions = await prisma.question.findMany({
-        //     where: query,
-        // });
-
-        const totalQuestions = await prisma.question.count({
+        // totalQuestions count
+        const totalQuestionsCount = await prisma.question.count({
             where: query,
         });
 
-        const hasNext = totalQuestions > offset;
+        const hasNextPage = totalQuestionsCount > offset;
 
-        // console.log("next = ", hasNext);
-
-        return NextResponse.json({questions, hasNext}, { status: 200 });
+        return NextResponse.json({questions, hasNextPage}, { status: 200 });
     } catch (error) {
         console.log(error);
         return NextResponse.json({ error: error.message }, { status: 500 });

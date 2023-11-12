@@ -25,14 +25,13 @@ const LearnPage = async ({ params, searchParams }) => {
     const limit =
         typeof searchParams.limit === "string" ? Number(searchParams.limit) : 5;
 
-    const { questions, hasNext } = await fetchQuestions(
+    const { questions, hasNextPage } = await fetchQuestions(
         languageSlug,
         topicSlug,
         page,
         limit
     );
 
-    // console.log(hasNext);
 
     return (
         <div className="w-full md:w-[70%] lg:w-[60%] mx-auto py-10 flex flex-col justify-center items-center">
@@ -46,7 +45,7 @@ const LearnPage = async ({ params, searchParams }) => {
                     />
                 ))}
             </div>
-            <Pagination page={page} hasNext={hasNext} languageSlug={languageSlug} topicSlug={topicSlug} />
+            <Pagination page={page} hasNextPage={hasNextPage} languageSlug={languageSlug} topicSlug={topicSlug} />
         </div>
     );
 };

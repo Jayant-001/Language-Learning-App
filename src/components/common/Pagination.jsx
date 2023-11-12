@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import React from "react";
 
-const Pagination = ({ page, hasNext, languageSlug, topicSlug }) => {
+const Pagination = ({ page, hasNextPage, languageSlug, topicSlug }) => {
 
     const router = useRouter();
 
@@ -30,7 +30,7 @@ const Pagination = ({ page, hasNext, languageSlug, topicSlug }) => {
                     )
                 }
                 type="button"
-                disabled={!hasNext}
+                disabled={!hasNextPage}
                 className="text-white bg-blue-700 hover:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-7 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
                 Next
