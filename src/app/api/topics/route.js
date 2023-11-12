@@ -7,11 +7,14 @@ export const GET = async (req) => {
         const { searchParams } = new URL(req.url);
         const language = searchParams.get("language");
 
+        // console.log(language)
         const topics = await prisma.topic.findMany({
             where: {
                 languageSlug: language,
             },
         });
+
+        // const topics = []
 
         return NextResponse.json(topics, { status: 200 });
     } catch (error) {

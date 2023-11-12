@@ -5,11 +5,11 @@ import { Suspense } from "react";
 
 export default async function Home() {
     return (
-        <div className="flex flex-col items-center w-full justify-center min-h-[600px] gap-5">
+        <div className="flex flex-col items-center w-full justify-center min-h-[600px] gap-5 py-10">
             <p className="text-2xl md:text-3xl font-bold text-center">
                 <span>It</span>
                 <span className="text-red-500">{" doesn't matter "}</span>
-                <span>what you learn </span>
+                <span>what you learn</span>
                 <span className="text-red-500">;</span>
                 <br />
                 <span>

@@ -11,3 +11,18 @@ export const GET = async () => {
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
 };
+
+export const POST = async (req) => {
+    try {
+        const { languages } = await req.json();
+
+        await prisma.language.createMany({
+            data: languages,
+        });
+
+        return NextResponse.json({ success: true }, { status: 201 });
+    } catch (error) {
+        console.log(error);
+        return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+};
