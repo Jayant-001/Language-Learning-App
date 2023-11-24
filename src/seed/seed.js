@@ -2,7 +2,7 @@ import prisma from "../../prisma/index.js";
 
 const topics = [
     {
-        name: "Grammar",
+        name: "grammar-english",
         slug: "grammar-english",
         languageSlug: "english",
     },
@@ -128,10 +128,12 @@ const topics = [
     },
 ];
 
+
+
 const seed = async () => {
     try {
-        await prisma.topic.createMany({
-            data: topics,
+        await prisma.question.createMany({
+            data: questions,
         });
 
         console.log("data inserted");
