@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "../../../../prisma";
 
+// `${process.env.NEXT_PUBLIC_SERVER_URL}/api/topics?language=${language}`
 export const GET = async (req) => {
     try {
         // extract language from URL query parameters
@@ -25,11 +26,13 @@ export const GET = async (req) => {
 
 export const POST = async (req) => {
     try {
-        const { topic } = await req.json();
+        const { name, language, slug } = await req.json();
 
         await prisma.topic.create({
             data: {
-                name: topic,
+                name,
+                languageSlug: language,
+                slug,
             },
         });
 
